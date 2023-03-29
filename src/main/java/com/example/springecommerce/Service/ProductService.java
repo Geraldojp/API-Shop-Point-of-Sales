@@ -14,6 +14,8 @@ import com.example.springecommerce.Repository.StockRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +48,7 @@ public class ProductService implements IProductService {
             newProduct.setPrice(newPrice);
             newProduct.setCategory(category);
             newProduct.setStock(newStock);
+            newPrice.setProduct(newProduct);
 
             stockRepository.save(newStock);
             priceRepository.save(newPrice);
@@ -70,9 +73,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductResponse> findAll() {
+    public List<ProductResponse> findAll(Pageable pageable) {
         try {
-            List<Product> find = productRepository.findAll();
+            Page<Product> find = productRepository.findAll(pageable);
             if (find == null) {
                 throw new NotFoundException("Data not found");
             }

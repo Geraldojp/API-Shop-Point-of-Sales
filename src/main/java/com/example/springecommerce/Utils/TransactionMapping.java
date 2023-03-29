@@ -2,13 +2,14 @@ package com.example.springecommerce.Utils;
 
 import com.example.springecommerce.Model.Entity.TransactionDetail;
 import com.example.springecommerce.Model.Request.TransactionResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 @Component
 public class TransactionMapping {
-    public List<TransactionResponse> getTransactionResponses(List<TransactionDetail> find) {
+    public List<TransactionResponse> getTransactionResponses(Page<TransactionDetail> find) {
         return find.stream()
                 .map(transactionDetail -> {
                     TransactionResponse transactionResponse = new TransactionResponse();

@@ -7,6 +7,7 @@ import com.example.springecommerce.Repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,9 +44,9 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Iterable<Category> findAll() {
+    public Iterable<Category> findAll(Pageable pageable) {
         try {
-            Iterable<Category> find = categoryRepository.findAll();
+            Iterable<Category> find = categoryRepository.findAll(pageable);
             if (find == null){
                 throw new NotFoundException("Data not found");
             }

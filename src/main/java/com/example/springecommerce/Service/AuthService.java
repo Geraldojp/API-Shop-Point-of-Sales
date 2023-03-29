@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AuthService implements IAuthService{
     @Autowired
     private AuthRepository authRepository;
@@ -45,7 +46,7 @@ public class AuthService implements IAuthService{
     }
 
     @Override
-    @Transactional
+
     public String register(RegisterRequest registerRequest) {
         try {
             Auth auth = modelMapper.map(registerRequest, Auth.class);
