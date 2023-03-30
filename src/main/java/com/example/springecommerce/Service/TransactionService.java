@@ -40,7 +40,7 @@ public class TransactionService implements ITransactionService {
             Stock stock = findProduct.get().getStock();
             stock.setTotalStock(stock.getTotalStock() - transaction.getQuantity());
 
-
+            newTransaction.setTransactionDate(LocalDate.now());
             newTransaction.setUser(findUser.get());
             newTransaction.setGrandTotal(findProduct.get().getPrice().getPrice() * transaction.getQuantity());
             findProduct.get().setStock(stock);
