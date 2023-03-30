@@ -2,7 +2,7 @@ package com.example.springecommerce.Service;
 
 import com.example.springecommerce.Model.Entity.*;
 import com.example.springecommerce.Model.Request.TransactionRequest;
-import com.example.springecommerce.Model.Request.TransactionResponse;
+import com.example.springecommerce.Model.Request.TransactionReport;
 import com.example.springecommerce.Repository.*;
 import com.example.springecommerce.Utils.TransactionMapping;
 import jakarta.transaction.Transactional;
@@ -57,7 +57,7 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<TransactionResponse> findAll() {
+    public List<TransactionReport> findAll() {
         try {
 
             List<TransactionDetail> find = transactionDetailRepository.findAll();
@@ -68,14 +68,14 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<TransactionResponse> getDailyReport(LocalDate date) {
+    public List<TransactionReport> getDailyReport(LocalDate date) {
         try {
             List<TransactionDetail> find = transactionDetailRepository.findByTransaction_TransactionDate(date);
             Double dailyTotal = transactionDetailRepository.getTotalDailyTransaction(date);
             System.out.println(dailyTotal);
-            List<TransactionResponse> result = transactionMapping.getTransactionResponses(find);
-            for (TransactionResponse transactionResponse : result) {
-                transactionResponse.setDailyTotal(String.valueOf(dailyTotal));
+            List<TransactionReport> result = transactionMapping.getTransactionResponses(find);
+            for (TransactionReport transactionReport : result) {
+                transactionReport.setDailyTotal(String.valueOf(dailyTotal));
             }
             return result;
         }catch (Exception e){
@@ -86,15 +86,15 @@ public class TransactionService implements ITransactionService {
 
 
     @Override
-    public List<TransactionResponse> getMonthlyReport(int month, int year) {
+    public List<TransactionReport> getMonthlyReport(int month, int year) {
         try {
             LocalDate startDate = LocalDate.of(year,month,1);
             LocalDate endDate = LocalDate.of(year,month,startDate.lengthOfMonth());
             List<TransactionDetail> find = transactionDetailRepository
                     .findByTransaction_TransactionDateBetween(startDate, endDate);
-            List<TransactionResponse> result = transactionMapping.getTransactionResponses(find);
+            List<TransactionReport> result = transactionMapping.getTransactionResponses(find);
             Double monthlyTotal = transactionDetailRepository.getTotalMonthlyTransaction(startDate, endDate);
-            for (TransactionResponse transactionResponse : result) {
+            for (TransactionReport transactionResponse : result) {
                 transactionResponse.setMonthlyTotal(String.valueOf(monthlyTotal));
             }
             return result;

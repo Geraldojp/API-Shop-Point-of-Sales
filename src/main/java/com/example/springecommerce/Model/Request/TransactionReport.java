@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class TransactionResponse {
+public class TransactionReport {
     private String transactionDate;
     private String email;
     private String productName;

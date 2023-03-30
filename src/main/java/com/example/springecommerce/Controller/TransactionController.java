@@ -1,8 +1,9 @@
 package com.example.springecommerce.Controller;
 
 import com.example.springecommerce.Model.Request.TransactionRequest;
-import com.example.springecommerce.Model.Request.TransactionResponse;
+import com.example.springecommerce.Model.Request.TransactionReport;
 import com.example.springecommerce.Model.Response.SuccessResponse;
+import com.example.springecommerce.Model.Response.TransactionResponses;
 import com.example.springecommerce.Service.ITransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,26 +27,26 @@ public class TransactionController {
     }
     @GetMapping
     public ResponseEntity findAll() {
-        Iterable<TransactionResponse> find = transactionService.findAll();
+        Iterable<TransactionReport> find = transactionService.findAll();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new SuccessResponse<>("Success", find));
     }
     @GetMapping("/daily")
     public ResponseEntity getDailyReport(@RequestParam LocalDate date) {
-        List<TransactionResponse> find = transactionService.getDailyReport(date);
-        String total = "Total Daily Transaction is " + find.get(0).getDailyTotal();
+        List<TransactionReport> find = transactionService.getDailyReport(date);
+        String total = find.get(0).getDailyTotal();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new SuccessResponse<>(total, find));
+                .body(new TransactionResponses("Success", find, total));
     }
     @GetMapping("/monthly")
     public ResponseEntity getMonthlyReport(@RequestParam int month,@RequestParam int year) {
-        List<TransactionResponse> find = transactionService.getMonthlyReport(month, year);
-        String total = "Total Monthly Transaction is " + find.get(0).getMonthlyTotal();
+        List<TransactionReport> find = transactionService.getMonthlyReport(month, year);
+        String total = find.get(0).getMonthlyTotal();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new SuccessResponse<>(total, find));
+                .body(new TransactionResponses("Success", find, total));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {

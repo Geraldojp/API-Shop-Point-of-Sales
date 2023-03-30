@@ -73,9 +73,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductResponse> findAll(Pageable pageable) {
+    public List<ProductResponse> findAll() {
         try {
-            Page<Product> find = productRepository.findAll(pageable);
+            List<Product> find = productRepository.findAll();
             if (find == null) {
                 throw new NotFoundException("Data not found");
             }

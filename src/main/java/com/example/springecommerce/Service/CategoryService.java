@@ -44,9 +44,9 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Iterable<Category> findAll(Pageable pageable) {
+    public Iterable<Category> findAll() {
         try {
-            Iterable<Category> find = categoryRepository.findAll(pageable);
+            Iterable<Category> find = categoryRepository.findAll();
             if (find == null){
                 throw new NotFoundException("Data not found");
             }
